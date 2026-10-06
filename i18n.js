@@ -3,9 +3,9 @@ window.I18N = (() => {
   const T = {
     eyebrow: { de: "Systematische Strategie · ETH &amp; BTC in Euro", en: "Systematic strategy · ETH &amp; BTC in euros" },
     title: { de: "M6F+ gegen Halten", en: "M6F+ vs. holding" },
-    "lede": { de: 'M6F+ gegen einfaches Halten – seit 2020, mit Gebühren.', en: 'M6F+ vs. simply holding – since 2020, after fees.' },
+    "lede": { de: 'M6F+ ist eine regelbasierte Strategie für Ether und Bitcoin. Sie entscheidet automatisch, wie viel des Kapitals investiert ist – von 0 bis 100 % – und handelt nur, wenn sich die Lage wirklich ändert. Ohne Bauchgefühl, rund um die Uhr.', en: 'M6F+ is a rule-based strategy for Ether and Bitcoin. It decides automatically how much of the capital is invested – from 0 to 100 % – and only trades when the situation really changes. No gut feeling, around the clock.' },
     "what.h": { de: "Was ist M6F+?", en: "What is M6F+?" },
-    "what.p1": { de: 'Regelbasiert für ETH und BTC: M6F+ entscheidet automatisch, wie viel investiert ist – von 0 bis 100 %.', en: 'Rule-based for ETH and BTC: M6F+ decides automatically how much is invested – from 0 to 100 %.' },
+    "what.p1": { de: 'Hier siehst du, wie sie sich seit Februar 2020 gegen das einfache Halten geschlagen hätte – mit allen Gebühren, für jeden Starttag und jeden Betrag.', en: 'Here you can see how it would have done against simply holding since February 2020 – after all fees, for any start day and any amount.' },
     "what.p2": {
       de: "Das Ziel ist nicht, jede Rallye ganz mitzunehmen, sondern große Einbrüche zu vermeiden und über mehrere Jahre mehr übrig zu behalten als beim einfachen Halten. Wie die Regeln im Einzelnen aussehen, bleibt hier bewusst offen – die Seite zeigt nur, was dabei herausgekommen wäre.",
       en: "The aim is not to ride every rally in full, but to avoid the big crashes and keep more than simply holding over several years. The rules themselves are deliberately not shown here – this page only shows what they would have achieved.",

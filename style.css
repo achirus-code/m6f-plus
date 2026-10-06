@@ -162,7 +162,7 @@ h2.section { font-size: 22px; letter-spacing: -.01em; margin: 36px 0 6px; }
 .topbar { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 6px; }
 .topbar .eyebrow { margin: 0; }
 
-.reasons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 16px; }
+.reasons { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 16px; }
 .reason { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 16px; position: relative; }
 .reason h3 { font-size: 16px; margin: 0 0 6px; }
 .reason p { color: var(--text-2); font-size: 14px; margin: 0; }
@@ -180,7 +180,9 @@ table.mini td:last-child, table.mini th:last-child { text-align: left; color: va
 .fit .bad li::before { content: "–"; position: absolute; left: 4px; color: var(--text-3); font-weight: 700; }
 .risks ul { padding-left: 18px; color: var(--text-2); margin: 8px 0 0; }
 .risks li { margin-bottom: 6px; }
-@media (max-width: 600px) { .reasons { grid-template-columns: 1fr 1fr; } table.mini { font-size: 13px; } }
+@media (max-width: 600px) { .reasons { grid-template-columns: 1fr; } table.mini { font-size: 13px; } }
 
 .lede + .lede { margin-top: 6px; }
-@media (max-width: 860px) { .reasons { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 760px) { .reasons { grid-template-columns: 1fr; } }
+
+.lede { max-width: 720px; }
