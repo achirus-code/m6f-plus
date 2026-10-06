@@ -27,7 +27,7 @@ window.I18N = (() => {
     "why.1h": { de: "Kleinere Einbrüche", en: "Smaller crashes" },
     "why.1p": { de: '37 % statt 77 % größter Rückgang (ETH).', en: '37 % instead of 77 % largest drawdown (ETH).' },
     "why.2h": { de: "Mehr am Ende", en: "More in the end" },
-    "why.2p": { de: '10.000 € → 428.000 € statt 149.000 € (ETH seit 2020).', en: '€10,000 → €428,000 instead of €149,000 (ETH since 2020).' },
+    "why.2p": { de: '10.000 € → 427.000 € statt 147.000 € (ETH seit 2020).', en: '€10,000 → €427,000 instead of €147,000 (ETH since 2020).' },
     "why.3h": { de: "Der Einstieg zählt weniger", en: "The entry matters less" },
     "why.3p": { de: 'Nach 2 Jahren 96 % der Starts im Plus statt 66 %.', en: 'After 2 years 96 % of starts in profit instead of 66 %.' },
     "why.4h": { de: "Keine Bauchentscheidungen", en: "No gut decisions" },
