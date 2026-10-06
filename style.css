@@ -161,3 +161,23 @@ h2.section { font-size: 22px; letter-spacing: -.01em; margin: 36px 0 6px; }
 
 .topbar { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 6px; }
 .topbar .eyebrow { margin: 0; }
+
+.reasons { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; margin-top: 16px; }
+.reason { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 16px; position: relative; }
+.reason h3 { font-size: 16px; margin: 0 0 6px; }
+.reason p { color: var(--text-2); font-size: 14px; margin: 0; }
+.reason .num { display: inline-grid; place-items: center; width: 26px; height: 26px; border-radius: 50%;
+  background: var(--accent-bg); color: var(--s1); font-weight: 700; font-size: 13px; margin-bottom: 10px; }
+.math { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 16px; margin-top: 12px; }
+.math p { color: var(--text-2); max-width: 760px; margin: 0 0 12px; }
+.math p:last-child { margin: 12px 0 0; }
+table.mini td:nth-child(2) { font-weight: 600; color: var(--text); }
+table.mini td:last-child, table.mini th:last-child { text-align: left; color: var(--text-2); }
+.fit { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 0 32px; }
+.fit ul { list-style: none; padding: 0; margin: 10px 0 0; }
+.fit li { padding: 8px 0 8px 26px; border-bottom: 1px solid var(--line); color: var(--text-2); position: relative; }
+.fit .good li::before { content: "✓"; position: absolute; left: 2px; color: var(--good); font-weight: 700; }
+.fit .bad li::before { content: "–"; position: absolute; left: 4px; color: var(--text-3); font-weight: 700; }
+.risks ul { padding-left: 18px; color: var(--text-2); margin: 8px 0 0; }
+.risks li { margin-bottom: 6px; }
+@media (max-width: 600px) { .reasons { grid-template-columns: 1fr; } table.mini { font-size: 13px; } }
