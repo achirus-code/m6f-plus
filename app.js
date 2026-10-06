@@ -286,11 +286,14 @@
     document.getElementById("duel").innerHTML = rows.map((r) => {
       const max = Math.max(r.a, r.b) || 1;
       const win = r.loss ? r.a <= r.b : r.a >= r.b;
+      // drawdowns: what is left of the peak, the better side filled, the gap shown as loss
+      const wa = r.loss ? 100 : (r.a / max) * 100;
+      const wb = r.loss ? Math.max(4, (100 - r.b) / Math.max(100 - r.a, 1) * 100) : (r.b / max) * 100;
       return `<div class="duel-row">
         <div class="duel-label">${t(r.k)} <span class="since">${t("since", { y: since })}</span><span class="adv${win ? "" : " lag"}">${r.adv}</span></div>
         <div class="duel-bars">
-          <div class="bar a" style="--w:${(r.a / max) * 100}%"><span>M6F+</span><b>${r.fmt(r.a)}</b></div>
-          <div class="bar b" style="--w:${(r.b / max) * 100}%"><span>${t("hold")}</span><b>${r.fmt(r.b)}</b></div>
+          <div class="bar a" style="--w:${wa}%"><span>M6F+</span><b>${r.fmt(r.a)}</b></div>
+          <div class="bar b${r.loss ? " loss" : ""}" style="--w:${wb}%"><span>${t("hold")}</span><b>${r.fmt(r.b)}</b></div>
         </div>
       </div>`;
     }).join("");

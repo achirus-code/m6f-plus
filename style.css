@@ -221,6 +221,7 @@ table.mini td:last-child, table.mini th:last-child { text-align: left; color: va
   transform-origin: left; animation: grow .9s cubic-bezier(.2,.8,.2,1) both; }
 .bar.a::before { background: linear-gradient(90deg, #2a78d6, #1baf7a); }
 .bar.b::before { background: linear-gradient(90deg, #b8302f, var(--s2)); }
+.bar.loss { background: repeating-linear-gradient(135deg, rgba(227,73,72,.28) 0 6px, rgba(227,73,72,.12) 6px 12px); }
 .bar span, .bar b { position: relative; z-index: 1; line-height: 34px; padding: 0 12px; font-size: 13px; color: #fff; }
 .bar b { position: absolute; right: 0; top: 0; color: var(--text); font-size: 18px; font-weight: 800; font-variant-numeric: tabular-nums; }
 .bar.a b { color: var(--text); }
