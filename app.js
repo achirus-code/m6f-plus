@@ -2,6 +2,7 @@
   "use strict";
   const D = window.M6F_DATA;
   const N = D.days.length;
+  const STEP = D.step || 1; // days between two values (weekly)
   const eur = new Intl.NumberFormat("de-DE", { style: "currency", currency: "EUR", maximumFractionDigits: 0 });
   const num = (v, d = 1) => new Intl.NumberFormat("de-DE", { minimumFractionDigits: d, maximumFractionDigits: d }).format(v);
   const pct = (v, d = 0) => (v > 0 ? "+" : v < 0 ? "−" : "") + num(Math.abs(v), d) + " %";
@@ -65,10 +66,13 @@
   function xTicks(days) {
     const span = days.length;
     const out = [];
+    const spanDays = span * STEP;
     days.forEach((d, i) => {
-      const [y, m, dd] = d.split("-");
-      if (span > 540 ? (m === "01" && dd === "01") : (dd === "01" && (span > 200 ? ["01", "04", "07", "10"].includes(m) : true)))
-        out.push([i, span > 540 ? y : `${m}/${y.slice(2)}`]);
+      const [y, m] = d.split("-"), prev = i ? days[i - 1] : null;
+      const newMonth = prev && prev.slice(0, 7) !== d.slice(0, 7);
+      if (!newMonth) return;
+      if (spanDays > 540 ? m === "01" : spanDays > 200 ? ["01", "04", "07", "10"].includes(m) : true)
+        out.push([i, spanDays > 540 ? y : `${m}/${y.slice(2)}`]);
     });
     return out;
   }
@@ -181,7 +185,7 @@
     const s = state.start, days = D.days.slice(s);
     const bot = growth("bot", s), hold = growth("hold", s);
     const a = state.amount, c1 = css("--s1"), c2 = css("--s2");
-    const years = (days.length - 1) / 365.25;
+    const years = (days.length - 1) * STEP / 365.25;
     const cagr = (g) => years > 0.5 ? pct((Math.pow(g, 1 / years) - 1) * 100, 1) + " pro Jahr" : "";
     const ddB = drawdowns(bot), ddH = drawdowns(hold);
     const endB = bot[bot.length - 1], endH = hold[hold.length - 1];
@@ -209,7 +213,8 @@
     for (let i = 1; i <= days.length; i++) {
       if (i === days.length || days[i].slice(0, 4) !== days[i0].slice(0, 4)) {
         const y = days[i0].slice(0, 4), i1 = i - 1;
-        const partial = !(days[i0].endsWith("-01-01") || i0 === 0 && days[0].endsWith("01-01")) || !days[i1].endsWith("-12-31");
+        // a full year starts in its first week and ends in its last one (weekly values)
+        const partial = days[i0].slice(5) > "01-07" || days[i1].slice(5) < "12-25";
         const base0 = i0 === 0 ? 1 : bot[i0 - 1], baseH = i0 === 0 ? 1 : hold[i0 - 1];
         const rb = (bot[i1] / base0 - 1) * 100, rh = (hold[i1] / baseH - 1) * 100;
         const label = y + (partial ? "*" : "");
@@ -226,7 +231,7 @@
   }
 
   function renderStarts() {
-    const H = state.horizon, c1 = css("--s1"), c2 = css("--s2");
+    const H = Math.round(state.horizon / STEP), c1 = css("--s1"), c2 = css("--s2");
     const n = N - H;
     const rb = new Float64Array(n), rh = new Float64Array(n);
     for (let s = 0; s < n; s++) { rb[s] = (ratioAt("bot", s, s + H) - 1) * 100; rh[s] = (ratioAt("hold", s, s + H) - 1) * 100; }
@@ -235,9 +240,9 @@
     const sb = sorted(rb), sh = sorted(rh);
     const share = (a) => Array.from(a).filter((v) => v > 0).length / a.length * 100;
     let better = 0; for (let s = 0; s < n; s++) if (rb[s] > rh[s]) better++;
-    const label = { 30: "1 Monat", 91: "3 Monaten", 182: "6 Monaten", 365: "1 Jahr", 730: "2 Jahren" }[H];
+    const label = { 30: "1 Monat", 91: "3 Monaten", 182: "6 Monaten", 365: "1 Jahr", 730: "2 Jahren" }[state.horizon];
     document.getElementById("starts-note").textContent =
-      `Für jeden der ${num(n, 0)} möglichen Starttage seit dem ${dateDe(D.days[0])}: das Ergebnis nach ${label}.`;
+      `Für ${num(n, 0)} Starttage seit dem ${dateDe(D.days[0])}, einer pro Woche: das Ergebnis nach ${label}.`;
     const box = (name, color, s, arr) => tile(name, `${num(share(arr), 0)} % im Plus`,
       `Median ${pct(q(s, 0.5))} · schlechteste 10 % ${pct(q(s, 0.1))} · schlechtester Start ${pct(s[0])} · bester ${pct(s[s.length - 1])}`, color);
     document.getElementById("starts").innerHTML = box("M6F+", c1, sb, rb) + box("Halten", c2, sh, rh) +
@@ -260,11 +265,11 @@
   seg("scale", (v) => { state.log = v === "log"; render(); });
   seg("horizon", (v) => { state.horizon = +v; renderStarts(); });
   const start = document.getElementById("start");
-  start.min = D.days[0]; start.max = D.days[N - 31]; start.value = D.days[0];
+  start.min = D.days[0]; start.max = D.days[N - 5]; start.value = D.days[0];
   start.addEventListener("change", () => {
     let i = D.days.indexOf(start.value);
     if (i < 0) i = D.days.findIndex((d) => d >= start.value);
-    state.start = Math.max(0, Math.min(N - 31, i < 0 ? 0 : i));
+    state.start = Math.max(0, Math.min(N - 5, i < 0 ? 0 : i));
     start.value = D.days[state.start];
     render();
   });
