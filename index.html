@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>M6F+ gegen Halten</title>
+<meta name="description" content="Backtest-Statistiken der Strategie M6F+ für ETH und BTC im Vergleich zum Halten – interaktiv.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="wrap">
+  <p class="eyebrow">Systematische Strategie · ETH &amp; BTC in Euro</p>
+  <h1>M6F+ gegen Halten</h1>
+  <p class="lede">Wie sich die Strategie M6F+ seit Februar 2020 im Vergleich zum einfachen Halten entwickelt hätte –
+    mit Gebühren, Tag für Tag. Wähle Markt, Startdatum und Betrag.</p>
+</header>
+
+<main class="wrap">
+  <section class="controls" aria-label="Auswahl">
+    <div class="seg" role="radiogroup" aria-label="Markt" id="market">
+      <button role="radio" data-v="eth" aria-checked="true">ETH</button>
+      <button role="radio" data-v="btc" aria-checked="false">BTC</button>
+      <button role="radio" data-v="mix" aria-checked="false">60 % ETH / 40 % BTC</button>
+    </div>
+    <label class="field">Start
+      <input type="date" id="start" min="2020-02-01">
+    </label>
+    <label class="field">Betrag
+      <span class="money"><input type="number" id="amount" value="10000" min="100" step="100" inputmode="numeric"> €</span>
+    </label>
+    <div class="seg" role="radiogroup" aria-label="Skala" id="scale">
+      <button role="radio" data-v="lin" aria-checked="true">Linear</button>
+      <button role="radio" data-v="log" aria-checked="false">Logarithmisch</button>
+    </div>
+  </section>
+
+  <section class="tiles" id="tiles" aria-live="polite"></section>
+
+  <section class="card">
+    <div class="card-head">
+      <h2>Wertentwicklung</h2>
+      <div class="legend"><span class="key k1"></span>M6F+ <span class="key k2"></span>Halten</div>
+    </div>
+    <div class="chart" id="equity"></div>
+  </section>
+
+  <section class="card">
+    <div class="card-head">
+      <h2>Rückgang vom bisherigen Höchststand</h2>
+      <div class="legend"><span class="key k1"></span>M6F+ <span class="key k2"></span>Halten</div>
+    </div>
+    <div class="chart short" id="drawdown"></div>
+  </section>
+
+  <section class="card">
+    <div class="card-head">
+      <h2>Ergebnis je Kalenderjahr</h2>
+      <div class="legend"><span class="key k1"></span>M6F+ <span class="key k2"></span>Halten</div>
+    </div>
+    <div class="chart short" id="years"></div>
+    <details class="table-view"><summary>Als Tabelle</summary><div id="years-table"></div></details>
+  </section>
+
+  <section class="card">
+    <div class="card-head">
+      <h2>Jeder Tag ein möglicher Start</h2>
+      <div class="seg small" role="radiogroup" aria-label="Anlagedauer" id="horizon">
+        <button role="radio" data-v="30" aria-checked="false">1 Monat</button>
+        <button role="radio" data-v="91" aria-checked="false">3 Monate</button>
+        <button role="radio" data-v="182" aria-checked="false">6 Monate</button>
+        <button role="radio" data-v="365" aria-checked="true">1 Jahr</button>
+        <button role="radio" data-v="730" aria-checked="false">2 Jahre</button>
+      </div>
+    </div>
+    <p class="note" id="starts-note"></p>
+    <div class="starts" id="starts"></div>
+    <div class="chart short" id="dist"></div>
+  </section>
+
+  <section class="fineprint">
+    <h2>Grundlage</h2>
+    <ul>
+      <li>Backtest auf Stundenkursen ETH-EUR und BTC-EUR, 1. Februar 2020 bis 4. Oktober 2026, Werte jeweils zum Tagesende (UTC).</li>
+      <li>Gebühren 0,09 % je Kauf und Verkauf (Market-Orders bei Revolut X) und 0,03 % Spread sind abgezogen; Steuern nicht.</li>
+      <li>„Halten“ heißt: am Starttag kaufen und bis zum Ende liegen lassen. Bei 60/40 werden beide Teile getrennt gehalten, ohne Umschichten.</li>
+      <li>Die Regeln wurden mit Daten aus diesem Zeitraum gefunden. In Blindtests, bei denen jedes Jahr nur mit den Jahren davor eingestellt wurde, fiel das Ergebnis für 2022–2026 etwas niedriger aus.</li>
+      <li>Vergangene Ergebnisse sind keine Garantie für die Zukunft. Keine Anlageberatung.</li>
+    </ul>
+  </section>
+</main>
+
+<div class="tip" id="tip" role="tooltip" hidden></div>
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
