@@ -3,11 +3,12 @@
   const D = window.M6F_DATA;
   const N = D.days.length;
   const STEP = D.step || 1; // days between two values (weekly)
-  const eur = new Intl.NumberFormat("de-DE", { style: "currency", currency: "EUR", maximumFractionDigits: 0 });
-  const num = (v, d = 1) => new Intl.NumberFormat("de-DE", { minimumFractionDigits: d, maximumFractionDigits: d }).format(v);
+  const L = window.I18N, t = L.t;
+  const eur = { format: (v) => new Intl.NumberFormat(L.locale, { style: "currency", currency: "EUR", maximumFractionDigits: 0 }).format(v) };
+  const num = (v, d = 1) => new Intl.NumberFormat(L.locale, { minimumFractionDigits: d, maximumFractionDigits: d }).format(v);
   const pct = (v, d = 0) => (v > 0 ? "+" : v < 0 ? "−" : "") + num(Math.abs(v), d) + " %";
   const mult = (v) => "×" + num(v, v < 10 ? 2 : 1);
-  const dateDe = (s) => { const [y, m, d] = s.split("-"); return `${d}.${m}.${y}`; };
+  const dateDe = (s) => { const [y, m, d] = s.split("-"); return L.lang === "de" ? `${d}.${m}.${y}` : `${d}/${m}/${y}`; };
   const css = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
 
   const state = { market: "eth", start: 0, amount: 10000, log: false, horizon: 365 };
@@ -63,7 +64,7 @@
     for (let v = Math.ceil(lo / step) * step; v <= hi + 1e-9; v += step) t.push(Math.abs(v) < 1e-9 ? 0 : v);
     return t;
   }
-  function xTicks(days) {
+  function xTicks(days, narrow) {
     const span = days.length;
     const out = [];
     const spanDays = span * STEP;
@@ -72,7 +73,7 @@
       const newMonth = prev && prev.slice(0, 7) !== d.slice(0, 7);
       if (!newMonth) return;
       if (spanDays > 540 ? m === "01" : spanDays > 200 ? ["01", "04", "07", "10"].includes(m) : true)
-        out.push([i, spanDays > 540 ? y : `${m}/${y.slice(2)}`]);
+        out.push([i, spanDays > 540 ? (narrow ? "’" + y.slice(2) : y) : `${m}/${y.slice(2)}`]);
     });
     return out;
   }
@@ -82,7 +83,7 @@
     host.innerHTML = "";
     const W = host.clientWidth, H = host.clientHeight;
     if (W < 80) return;
-    const m = { l: 64, r: 12, t: 10, b: 24 };
+    const m = { l: W < 480 ? 46 : 64, r: 8, t: 10, b: 24 };
     const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": opts.label || "" }, host);
     let lo = Infinity, hi = -Infinity;
     for (const s of series) for (const v of s.values) { if (v < lo) lo = v; if (v > hi) hi = v; }
@@ -99,7 +100,7 @@
       el("line", { x1: m.l, x2: W - m.r, y1: y(t), y2: y(t), class: t === 0 && opts.zero ? "zero" : "gridline" }, axis);
       el("text", { x: m.l - 8, y: y(t) + 4, "text-anchor": "end" }, axis).textContent = (opts.tick || fmt)(t);
     }
-    for (const [i, label] of xTicks(days)) {
+    for (const [i, label] of xTicks(days, W < 480)) {
       el("text", { x: x(i), y: H - 6, "text-anchor": "middle" }, axis).textContent = label;
     }
     for (const s of series) {
@@ -129,6 +130,7 @@
     };
     const leave = () => { tip.hidden = true; cross.setAttribute("visibility", "hidden"); dots.forEach((d) => d.setAttribute("visibility", "hidden")); };
     hit.addEventListener("mousemove", move); hit.addEventListener("touchmove", move, { passive: true });
+    hit.addEventListener("touchstart", move, { passive: true });
     hit.addEventListener("mouseleave", leave); hit.addEventListener("touchend", leave);
   }
 
@@ -137,8 +139,8 @@
     host.innerHTML = "";
     const W = host.clientWidth, H = host.clientHeight;
     if (W < 80) return;
-    const m = { l: 56, r: 8, t: 10, b: 24 };
-    const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": "Ergebnis je Kalenderjahr" }, host);
+    const m = { l: W < 480 ? 44 : 56, r: 4, t: 10, b: 24 };
+    const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": t("aria.years") }, host);
     let lo = 0, hi = 0;
     for (const g of groups) for (const v of g.values) { lo = Math.min(lo, v); hi = Math.max(hi, v); }
     const span = hi - lo || 1; hi += span * 0.06; lo -= lo < 0 ? span * 0.06 : 0;
@@ -153,7 +155,7 @@
     const tip = document.getElementById("tip");
     groups.forEach((g, gi) => {
       const cx = m.l + slot * (gi + 0.5);
-      el("text", { x: cx, y: H - 6, "text-anchor": "middle" }, axis).textContent = g.label;
+      el("text", { x: cx, y: H - 6, "text-anchor": "middle" }, axis).textContent = slot < 46 ? "’" + g.label.slice(2) : g.label;
       g.values.forEach((v, k) => {
         const x0 = cx - bw - 1 + k * (bw + 2), y0 = y(Math.max(v, 0)), y1 = y(Math.min(v, 0));
         const h = Math.max(1, y1 - y0), r = Math.min(4, h / 2, bw / 2);
@@ -186,26 +188,26 @@
     const bot = growth("bot", s), hold = growth("hold", s);
     const a = state.amount, c1 = css("--s1"), c2 = css("--s2");
     const years = (days.length - 1) * STEP / 365.25;
-    const cagr = (g) => years > 0.5 ? pct((Math.pow(g, 1 / years) - 1) * 100, 1) + " pro Jahr" : "";
+    const cagr = (g) => years > 0.5 ? pct((Math.pow(g, 1 / years) - 1) * 100, 1) + " " + t("perYear") : "";
     const ddB = drawdowns(bot), ddH = drawdowns(hold);
     const endB = bot[bot.length - 1], endH = hold[hold.length - 1];
     document.getElementById("tiles").innerHTML =
-      tile("M6F+ heute", eur.format(a * endB), `${pct((endB - 1) * 100)} · ${mult(endB)} ${cagr(endB) ? "· " + cagr(endB) : ""}`, c1) +
-      tile("Halten heute", eur.format(a * endH), `${pct((endH - 1) * 100)} · ${mult(endH)} ${cagr(endH) ? "· " + cagr(endH) : ""}`, c2) +
-      tile("Unterschied", (endB >= endH ? "+" : "−") + eur.format(Math.abs(a * (endB - endH))).replace("-", ""),
-        `M6F+ gegenüber Halten, seit ${dateDe(days[0])}`) +
-      tile("Größter Rückgang", `${pct(minOf(ddB))}`, `Halten: ${pct(minOf(ddH))}`, c1);
+      tile(t("tile.bot"), eur.format(a * endB), `${pct((endB - 1) * 100)} · ${mult(endB)} ${cagr(endB) ? "· " + cagr(endB) : ""}`, c1) +
+      tile(t("tile.hold"), eur.format(a * endH), `${pct((endH - 1) * 100)} · ${mult(endH)} ${cagr(endH) ? "· " + cagr(endH) : ""}`, c2) +
+      tile(t("tile.diff"), (endB >= endH ? "+" : "−") + eur.format(Math.abs(a * (endB - endH))).replace("-", ""),
+        t("tile.diffSub", { date: dateDe(days[0]) })) +
+      tile(t("tile.dd"), `${pct(minOf(ddB))}`, t("tile.ddSub", { v: pct(minOf(ddH)) }), c1);
 
     lineChart(document.getElementById("equity"), days,
-      [{ name: "M6F+", color: c1, values: Array.from(bot, (v) => v * a) }, { name: "Halten", color: c2, values: Array.from(hold, (v) => v * a) }],
+      [{ name: "M6F+", color: c1, values: Array.from(bot, (v) => v * a) }, { name: t("hold"), color: c2, values: Array.from(hold, (v) => v * a) }],
       (v) => eur.format(v), {
-        log: state.log, label: "Wertentwicklung M6F+ gegen Halten",
-        tick: (v) => v >= 1e6 ? num(v / 1e6, 1) + " Mio." : v >= 1e4 ? num(v / 1e3, 0) + " Tsd." : eur.format(v),
-        extra: (i) => `<div class="row"><span>Unterschied</span><b>${(bot[i] >= hold[i] ? "+" : "−") + eur.format(Math.abs(a * (bot[i] - hold[i])))}</b></div>`,
+        log: state.log, label: t("aria.equity"),
+        tick: (v) => v >= 1e6 ? num(v / 1e6, 1) + " " + t("million") : v >= 1e4 ? num(v / 1e3, 0) + " " + t("thousand") : eur.format(v),
+        extra: (i) => `<div class="row"><span>${t("diff")}</span><b>${(bot[i] >= hold[i] ? "+" : "−") + eur.format(Math.abs(a * (bot[i] - hold[i])))}</b></div>`,
       });
     lineChart(document.getElementById("drawdown"), days,
-      [{ name: "M6F+", color: c1, values: Array.from(ddB) }, { name: "Halten", color: c2, values: Array.from(ddH) }],
-      (v) => pct(v), { zero: true, label: "Rückgang vom Höchststand" });
+      [{ name: "M6F+", color: c1, values: Array.from(ddB) }, { name: t("hold"), color: c2, values: Array.from(ddH) }],
+      (v) => pct(v), { zero: true, label: t("aria.dd") });
 
     // calendar years within the range
     const groups = [], rows = [];
@@ -223,10 +225,10 @@
         i0 = i;
       }
     }
-    barChart(document.getElementById("years"), groups, [c1, c2], ["M6F+", "Halten"], (v) => pct(v));
+    barChart(document.getElementById("years"), groups, [c1, c2], ["M6F+", t("hold")], (v) => pct(v));
     document.getElementById("years-table").innerHTML =
-      `<table><thead><tr><th>Jahr</th><th>M6F+</th><th>Halten</th></tr></thead><tbody>${rows.join("")}</tbody></table>` +
-      `<p class="note">* angebrochenes Jahr</p>`;
+      `<table><thead><tr><th>${t("year")}</th><th>M6F+</th><th>${t("hold")}</th></tr></thead><tbody>${rows.join("")}</tbody></table>` +
+      `<p class="note">${t("partial")}</p>`;
     renderStarts();
   }
 
@@ -240,16 +242,16 @@
     const sb = sorted(rb), sh = sorted(rh);
     const share = (a) => Array.from(a).filter((v) => v > 0).length / a.length * 100;
     let better = 0; for (let s = 0; s < n; s++) if (rb[s] > rh[s]) better++;
-    const label = { 30: "1 Monat", 91: "3 Monaten", 182: "6 Monaten", 365: "1 Jahr", 730: "2 Jahren" }[state.horizon];
+    const label = t("after" + state.horizon);
     document.getElementById("starts-note").textContent =
-      `Für ${num(n, 0)} Starttage seit dem ${dateDe(D.days[0])}, einer pro Woche: das Ergebnis nach ${label}.`;
-    const box = (name, color, s, arr) => tile(name, `${num(share(arr), 0)} % im Plus`,
-      `Median ${pct(q(s, 0.5))} · schlechteste 10 % ${pct(q(s, 0.1))} · schlechtester Start ${pct(s[0])} · bester ${pct(s[s.length - 1])}`, color);
-    document.getElementById("starts").innerHTML = box("M6F+", c1, sb, rb) + box("Halten", c2, sh, rh) +
-      tile("M6F+ besser als Halten", `${num(better / n * 100, 0)} %`, "der Starttage", null);
+      t("starts.note", { n: num(n, 0), date: dateDe(D.days[0]), after: label });
+    const box = (name, color, s, arr) => tile(name, t("inPlus", { v: num(share(arr), 0) }),
+      t("startsSub", { med: pct(q(s, 0.5)), p10: pct(q(s, 0.1)), worst: pct(s[0]), best: pct(s[s.length - 1]) }), color);
+    document.getElementById("starts").innerHTML = box("M6F+", c1, sb, rb) + box(t("hold"), c2, sh, rh) +
+      tile(t("better"), `${num(better / n * 100, 0)} %`, t("ofStarts"), null);
     lineChart(document.getElementById("dist"), D.days.slice(0, n),
-      [{ name: "M6F+", color: c1, values: Array.from(rb) }, { name: "Halten", color: c2, values: Array.from(rh) }],
-      (v) => pct(v), { zero: true, label: `Ergebnis nach ${label} je Starttag`, dateLabel: (i) => `Start ${dateDe(D.days[i])} → ${dateDe(D.days[i + H])}` });
+      [{ name: "M6F+", color: c1, values: Array.from(rb) }, { name: t("hold"), color: c2, values: Array.from(rh) }],
+      (v) => pct(v), { zero: true, label: t("aria.starts"), dateLabel: (i) => t("startTo", { a: dateDe(D.days[i]), b: dateDe(D.days[i + H]) }) });
   }
 
   // ---------- controls ---------------------------------------------------------------------------------------
@@ -262,6 +264,7 @@
     });
   }
   seg("market", (v) => { state.market = v; render(); });
+  seg("lang", (v) => { L.set(v); render(); });
   seg("scale", (v) => { state.log = v === "log"; render(); });
   seg("horizon", (v) => { state.horizon = +v; renderStarts(); });
   const start = document.getElementById("start");
@@ -276,11 +279,12 @@
   const amount = document.getElementById("amount");
   amount.addEventListener("input", () => { const v = +amount.value; if (v >= 1) { state.amount = v; render(); } });
   // charts are drawn for their width: again whenever it changes (also when the page becomes visible)
-  let t, lastW = 0;
+  let timer, lastW = 0;
   new ResizeObserver(() => {
     const w = document.getElementById("equity").clientWidth;
-    if (w > 0 && w !== lastW) { lastW = w; clearTimeout(t); t = setTimeout(render, 80); }
+    if (w > 0 && w !== lastW) { lastW = w; clearTimeout(timer); timer = setTimeout(render, 80); }
   }).observe(document.querySelector("main"));
   matchMedia("(prefers-color-scheme: dark)").addEventListener("change", render);
+  L.apply();
   render();
 })();

@@ -9,88 +9,133 @@
 </head>
 <body>
 <header class="wrap">
-  <p class="eyebrow">Systematische Strategie · ETH &amp; BTC in Euro</p>
-  <h1>M6F+ gegen Halten</h1>
-  <p class="lede">Wie sich die Strategie M6F+ seit Februar 2020 im Vergleich zum einfachen Halten entwickelt hätte –
-    mit Gebühren, Woche für Woche. Wähle Markt, Startdatum und Betrag.</p>
+  <div class="topbar">
+    <p class="eyebrow" data-i18n="eyebrow"></p>
+    <div class="seg small" role="radiogroup" aria-label="Sprache / Language" id="lang">
+      <button role="radio" data-v="de" aria-checked="true">Deutsch</button>
+      <button role="radio" data-v="en" aria-checked="false">English</button>
+    </div>
+  </div>
+  <h1 data-i18n="title"></h1>
+  <p class="lede" data-i18n="lede"></p>
 </header>
 
+<section class="wrap intro">
+  <div class="intro-grid">
+    <div>
+      <h2 class="section" data-i18n="what.h"></h2>
+      <p data-i18n="what.p1"></p>
+      <p data-i18n="what.p2"></p>
+    </div>
+    <div>
+      <h2 class="section" data-i18n="facts.h"></h2>
+      <ul class="facts">
+        <li data-i18n="facts.eth"></li>
+        <li data-i18n="facts.btc"></li>
+        <li data-i18n="facts.dd"></li>
+        <li data-i18n="facts.y22"></li>
+        <li data-i18n="facts.but"></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
 <main class="wrap">
+  <h2 class="section" data-i18n="try.h"></h2>
+  <p class="section-lede" data-i18n="try.p"></p>
   <section class="controls" aria-label="Auswahl">
     <div class="seg" role="radiogroup" aria-label="Markt" id="market">
       <button role="radio" data-v="eth" aria-checked="true">ETH</button>
       <button role="radio" data-v="btc" aria-checked="false">BTC</button>
-      <button role="radio" data-v="mix" aria-checked="false">60 % ETH / 40 % BTC</button>
+      <button role="radio" data-v="mix" aria-checked="false" data-i18n="mix"></button>
     </div>
-    <label class="field">Start
+    <label class="field"><span data-i18n="start"></span>
       <input type="date" id="start" min="2020-02-01">
     </label>
-    <label class="field">Betrag
+    <label class="field"><span data-i18n="amount"></span>
       <span class="money"><input type="number" id="amount" value="10000" min="100" step="100" inputmode="numeric"> €</span>
     </label>
     <div class="seg" role="radiogroup" aria-label="Skala" id="scale">
-      <button role="radio" data-v="lin" aria-checked="true">Linear</button>
-      <button role="radio" data-v="log" aria-checked="false">Logarithmisch</button>
+      <button role="radio" data-v="lin" aria-checked="true" data-i18n="linear"></button>
+      <button role="radio" data-v="log" aria-checked="false" data-i18n="log"></button>
     </div>
   </section>
 
   <section class="tiles" id="tiles" aria-live="polite"></section>
 
+  <h2 class="section" data-i18n="equity.section"></h2>
   <section class="card">
     <div class="card-head">
-      <h2>Wertentwicklung</h2>
-      <div class="legend"><span class="key k1"></span>M6F+ <span class="key k2"></span>Halten</div>
+      <h2 data-i18n="equity.h"></h2>
+      <div class="legend"><span class="key k1"></span>M6F+ <span class="key k2"></span><span data-i18n="hold"></span></div>
     </div>
+    <p class="card-text" data-i18n="equity.p"></p>
     <div class="chart" id="equity"></div>
   </section>
 
+  <h2 class="section" data-i18n="dd.section"></h2>
   <section class="card">
     <div class="card-head">
-      <h2>Rückgang vom bisherigen Höchststand</h2>
-      <div class="legend"><span class="key k1"></span>M6F+ <span class="key k2"></span>Halten</div>
+      <h2 data-i18n="dd.h"></h2>
+      <div class="legend"><span class="key k1"></span>M6F+ <span class="key k2"></span><span data-i18n="hold"></span></div>
     </div>
+    <p class="card-text" data-i18n="dd.p"></p>
     <div class="chart short" id="drawdown"></div>
   </section>
 
+  <h2 class="section" data-i18n="years.section"></h2>
   <section class="card">
     <div class="card-head">
-      <h2>Ergebnis je Kalenderjahr</h2>
-      <div class="legend"><span class="key k1"></span>M6F+ <span class="key k2"></span>Halten</div>
+      <h2 data-i18n="years.h"></h2>
+      <div class="legend"><span class="key k1"></span>M6F+ <span class="key k2"></span><span data-i18n="hold"></span></div>
     </div>
+    <p class="card-text" data-i18n="years.p"></p>
     <div class="chart short" id="years"></div>
-    <details class="table-view"><summary>Als Tabelle</summary><div id="years-table"></div></details>
+    <details class="table-view"><summary data-i18n="astable"></summary><div id="years-table"></div></details>
   </section>
 
+  <h2 class="section" data-i18n="starts.section"></h2>
   <section class="card">
     <div class="card-head">
-      <h2>Jeder Tag ein möglicher Start</h2>
+      <h2 data-i18n="starts.h"></h2>
       <div class="seg small" role="radiogroup" aria-label="Anlagedauer" id="horizon">
-        <button role="radio" data-v="30" aria-checked="false">1 Monat</button>
-        <button role="radio" data-v="91" aria-checked="false">3 Monate</button>
-        <button role="radio" data-v="182" aria-checked="false">6 Monate</button>
-        <button role="radio" data-v="365" aria-checked="true">1 Jahr</button>
-        <button role="radio" data-v="730" aria-checked="false">2 Jahre</button>
+        <button role="radio" data-v="30" aria-checked="false" data-i18n="h30"></button>
+        <button role="radio" data-v="91" aria-checked="false" data-i18n="h91"></button>
+        <button role="radio" data-v="182" aria-checked="false" data-i18n="h182"></button>
+        <button role="radio" data-v="365" aria-checked="true" data-i18n="h365"></button>
+        <button role="radio" data-v="730" aria-checked="false" data-i18n="h730"></button>
       </div>
     </div>
+    <p class="card-text" data-i18n="starts.p"></p>
     <p class="note" id="starts-note"></p>
     <div class="starts" id="starts"></div>
     <div class="chart short" id="dist"></div>
   </section>
 
+  <section class="faq">
+    <h2 class="section" data-i18n="faq.h"></h2>
+    <details><summary data-i18n="faq.q1"></summary><p data-i18n="faq.a1"></p></details>
+    <details><summary data-i18n="faq.q2"></summary><p data-i18n="faq.a2"></p></details>
+    <details><summary data-i18n="faq.q3"></summary><p data-i18n="faq.a3"></p></details>
+    <details><summary data-i18n="faq.q4"></summary><p data-i18n="faq.a4"></p></details>
+    <details><summary data-i18n="faq.q5"></summary><p data-i18n="faq.a5"></p></details>
+  </section>
+
   <section class="fineprint">
-    <h2>Grundlage</h2>
+    <h2 data-i18n="basis.h"></h2>
     <ul>
-      <li>Backtest auf Stundenkursen ETH-EUR und BTC-EUR, 1. Februar 2020 bis 4. Oktober 2026, Werte wöchentlich zum Tagesende (UTC).</li>
-      <li>Gebühren 0,09 % je Kauf und Verkauf (Market-Orders bei Revolut X) und 0,03 % Spread sind abgezogen; Steuern nicht.</li>
-      <li>„Halten“ heißt: am Starttag kaufen und bis zum Ende liegen lassen. Bei 60/40 werden beide Teile getrennt gehalten, ohne Umschichten.</li>
-      <li>Die Regeln wurden mit Daten aus diesem Zeitraum gefunden. In Blindtests, bei denen jedes Jahr nur mit den Jahren davor eingestellt wurde, fiel das Ergebnis für 2022–2026 etwas niedriger aus.</li>
-      <li>Vergangene Ergebnisse sind keine Garantie für die Zukunft. Keine Anlageberatung.</li>
+      <li data-i18n="basis.1"></li>
+      <li data-i18n="basis.2"></li>
+      <li data-i18n="basis.3"></li>
+      <li data-i18n="basis.4"></li>
+      <li data-i18n="basis.5"></li>
     </ul>
   </section>
 </main>
 
 <div class="tip" id="tip" role="tooltip" hidden></div>
 <script src="data.js"></script>
+<script src="i18n.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
