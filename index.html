@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=202610062040">
+<link rel="stylesheet" href="style.css?v=202610062046">
 </head>
 <body>
 <header class="hero">
@@ -32,7 +32,13 @@
 </header>
 
 <section class="wrap duel">
-  <h2 class="duel-title"><span>M6F+</span> <em data-i18n="vs"></em> <span class="muted" data-i18n="hold"></span></h2>
+  <div class="duel-head">
+    <h2 class="duel-title"><span>M6F+</span> <em data-i18n="vs"></em> <span class="muted" data-i18n="hold"></span></h2>
+    <div class="cselect" id="since">
+      <button type="button" class="cselect-btn" aria-haspopup="listbox" aria-expanded="false"><span class="cselect-val"></span><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <ul class="cselect-list" role="listbox" hidden></ul>
+    </div>
+  </div>
   <div class="duel-rows" id="duel"></div>
 </section>
 
@@ -121,8 +127,8 @@
 </main>
 
 <div class="tip" id="tip" role="tooltip" hidden></div>
-<script src="data.js?v=202610062040"></script>
-<script src="i18n.js?v=202610062040"></script>
-<script src="app.js?v=202610062040"></script>
+<script src="data.js?v=202610062046"></script>
+<script src="i18n.js?v=202610062046"></script>
+<script src="app.js?v=202610062046"></script>
 </body>
 </html>

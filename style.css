@@ -230,3 +230,20 @@ table.mini td:last-child, table.mini th:last-child { text-align: left; color: va
   .duel-row { grid-template-columns: 1fr; gap: 10px; padding: 14px; }
   .bar { height: 30px; } .bar span, .bar b { line-height: 30px; } .bar b { font-size: 16px; }
 }
+
+.duel-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
+.duel-head .duel-title { margin: 8px 0 18px; }
+.duel-label .since { color: var(--text-3); font-weight: 500; font-size: 13px; }
+.duel-label .adv.lag { color: var(--text-3); }
+.cselect { position: relative; }
+.cselect-btn { display: inline-flex; align-items: center; gap: 10px; font: inherit; font-size: 15px; font-weight: 700; color: var(--text);
+  background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 10px 14px; cursor: pointer; }
+.cselect-btn:hover, .cselect-btn[aria-expanded="true"] { border-color: var(--s1); }
+.cselect-btn svg { color: var(--text-3); transition: transform .15s; }
+.cselect-btn[aria-expanded="true"] svg { transform: rotate(180deg); }
+.cselect-list { position: absolute; right: 0; top: calc(100% + 6px); z-index: 10; list-style: none; margin: 0; padding: 4px; min-width: 100%;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 12px 32px rgba(0,0,0,.25); }
+.cselect-list li { padding: 8px 12px; border-radius: 8px; cursor: pointer; white-space: nowrap; color: var(--text-2); font-weight: 600; outline: none; }
+.cselect-list li:hover, .cselect-list li:focus { background: var(--accent-bg); color: var(--text); }
+.cselect-list li[aria-selected="true"] { color: var(--s1); }
+@media (max-width: 700px) { .duel-head .duel-title { margin-bottom: 4px; } .duel-head { margin-bottom: 12px; } }

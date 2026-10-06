@@ -255,27 +255,65 @@
   }
 
 
-  // ---------- the duel: the headline comparisons as big bars ----------------------------------------------------
+  // ---------- the duel: the headline comparisons as big bars, since a chosen year ---------------------------------
+  const sinceYears = ["2020", "2021", "2022", "2023", "2024", "2025"];
+  let since = "2020";
+  function maxDD(arr, s0) {
+    let peak = -Infinity, m = 0;
+    for (let i = s0; i < N; i++) { peak = Math.max(peak, arr[i]); m = Math.min(m, arr[i] / peak - 1); }
+    return -m * 100;
+  }
   function renderDuel() {
+    const s0 = Math.max(0, D.days.findIndex((d) => d >= since + "-01-01"));
     const loc = (v, d) => num(v, d);
+    const x = (k) => D[k][N - 1] / D[k][s0];
+    const yr = Math.round(365 / STEP);
+    let plusB = 0, plusH = 0, n = 0;
+    for (let i = s0; i + yr < N; i++, n++) { if (D.eth_bot[i + yr] > D.eth_bot[i]) plusB++; if (D.eth_hold[i + yr] > D.eth_hold[i]) plusH++; }
+    const mult = (a, b) => a >= b ? t("duel.more", { x: loc(a / b, 1) }) : t("duel.behind");
+    const lessDD = (a, b) => a <= b ? t("duel.less", { x: loc((1 - a / b) * 100, 0) }) : t("duel.behind");
     const rows = [
-      { k: "duel.eth", a: 42.7, b: 14.7, fmt: (v) => "×" + loc(v, 1), adv: t("duel.more", { x: loc(42.7 / 14.7, 1) }) },
-      { k: "duel.btc", a: 22.0, b: 9.1, fmt: (v) => "×" + loc(v, 1), adv: t("duel.more", { x: loc(22.0 / 9.1, 1) }) },
-      { k: "duel.dd", a: 37, b: 77, fmt: (v) => "−" + loc(v, 0) + " %", adv: t("duel.half", { x: loc((1 - 37 / 77) * 100, 0) }), loss: true },
-      { k: "duel.y22", a: 13, b: 69, fmt: (v) => "−" + loc(v, 0) + " %", adv: t("duel.saved", { x: loc(69 - 13, 0) }), loss: true },
-      { k: "duel.plus", a: 96, b: 66, fmt: (v) => loc(v, 0) + " %", adv: t("duel.often", { x: loc(96 - 66, 0) }) },
+      { k: "duel.ethx", a: x("eth_bot"), b: x("eth_hold"), fmt: (v) => "×" + loc(v, v < 10 ? 2 : 1), adv: mult(x("eth_bot"), x("eth_hold")) },
+      { k: "duel.btcx", a: x("btc_bot"), b: x("btc_hold"), fmt: (v) => "×" + loc(v, v < 10 ? 2 : 1), adv: mult(x("btc_bot"), x("btc_hold")) },
+      { k: "duel.ddeth", a: maxDD(D.eth_bot, s0), b: maxDD(D.eth_hold, s0), fmt: (v) => "−" + loc(v, 0) + " %", loss: true },
+      { k: "duel.ddbtc", a: maxDD(D.btc_bot, s0), b: maxDD(D.btc_hold, s0), fmt: (v) => "−" + loc(v, 0) + " %", loss: true },
     ];
+    rows[2].adv = lessDD(rows[2].a, rows[2].b); rows[3].adv = lessDD(rows[3].a, rows[3].b);
+    if (n >= 4) {
+      const pb = plusB / n * 100, ph = plusH / n * 100;
+      rows.push({ k: "duel.plus1", a: pb, b: ph, fmt: (v) => loc(v, 0) + " %", adv: pb >= ph ? t("duel.often", { x: loc(pb - ph, 0) }) : t("duel.behind") });
+    }
     document.getElementById("duel").innerHTML = rows.map((r) => {
-      const max = Math.max(r.a, r.b);
-      return `<div class="duel-row${r.loss ? " loss" : ""}">
-        <div class="duel-label">${t(r.k)}<span class="adv">${r.adv}</span></div>
+      const max = Math.max(r.a, r.b) || 1;
+      const win = r.loss ? r.a <= r.b : r.a >= r.b;
+      return `<div class="duel-row">
+        <div class="duel-label">${t(r.k)} <span class="since">${t("since", { y: since })}</span><span class="adv${win ? "" : " lag"}">${r.adv}</span></div>
         <div class="duel-bars">
           <div class="bar a" style="--w:${(r.a / max) * 100}%"><span>M6F+</span><b>${r.fmt(r.a)}</b></div>
           <div class="bar b" style="--w:${(r.b / max) * 100}%"><span>${t("hold")}</span><b>${r.fmt(r.b)}</b></div>
         </div>
       </div>`;
     }).join("");
+    // the custom select
+    const box = document.getElementById("since");
+    box.querySelector(".cselect-val").textContent = t("since", { y: since });
+    box.querySelector(".cselect-list").innerHTML = sinceYears.map((y) =>
+      `<li role="option" tabindex="-1" data-v="${y}" aria-selected="${y === since}">${t("since", { y })}</li>`).join("");
   }
+  (function cselect() {
+    const box = document.getElementById("since"), btn = box.querySelector(".cselect-btn"), list = box.querySelector(".cselect-list");
+    const open = (on) => { list.hidden = !on; btn.setAttribute("aria-expanded", String(on)); if (on) list.querySelector('[aria-selected="true"]')?.focus({ preventScroll: true }); };
+    btn.addEventListener("click", () => open(list.hidden));
+    list.addEventListener("click", (ev) => { const li = ev.target.closest("li"); if (!li) return; since = li.dataset.v; open(false); btn.focus(); renderDuel(); });
+    list.addEventListener("keydown", (ev) => {
+      const items = [...list.children], i = items.indexOf(document.activeElement);
+      if (ev.key === "ArrowDown") { ev.preventDefault(); items[Math.min(items.length - 1, i + 1)].focus({ preventScroll: true }); }
+      if (ev.key === "ArrowUp") { ev.preventDefault(); items[Math.max(0, i - 1)].focus({ preventScroll: true }); }
+      if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); document.activeElement.click(); }
+      if (ev.key === "Escape") { open(false); btn.focus(); }
+    });
+    document.addEventListener("click", (ev) => { if (!box.contains(ev.target)) open(false); });
+  })();
 
   // ---------- controls ---------------------------------------------------------------------------------------
   function seg(id, onPick) {
