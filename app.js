@@ -7,7 +7,7 @@
   const eur = { format: (v) => new Intl.NumberFormat(L.locale, { style: "currency", currency: "EUR", maximumFractionDigits: 0 }).format(v) };
   const num = (v, d = 1) => new Intl.NumberFormat(L.locale, { minimumFractionDigits: d, maximumFractionDigits: d }).format(v);
   const pct = (v, d = 0) => (v > 0 ? "+" : v < 0 ? "−" : "") + num(Math.abs(v), d) + " %";
-  const mult = (v) => num(v, v < 10 ? 2 : 1) + "x";
+  const mult = (v) => "×" + num(v, v < 10 ? 2 : 1);
   const dateDe = (s) => { const [y, m, d] = s.split("-"); return L.lang === "de" ? `${d}.${m}.${y}` : `${d}/${m}/${y}`; };
   const css = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
 
@@ -273,8 +273,8 @@
     const mult = (a, b) => a >= b ? t("duel.more", { x: loc(a / b, 1) }) : t("duel.behind");
     const lessDD = (a, b) => a <= b ? t("duel.less", { x: loc((1 - a / b) * 100, 0) }) : t("duel.behind");
     const rows = [
-      { k: "duel.ethx", a: x("eth_bot"), b: x("eth_hold"), fmt: (v) => loc(v, v < 10 ? 2 : 1) + "x", adv: mult(x("eth_bot"), x("eth_hold")) },
-      { k: "duel.btcx", a: x("btc_bot"), b: x("btc_hold"), fmt: (v) => loc(v, v < 10 ? 2 : 1) + "x", adv: mult(x("btc_bot"), x("btc_hold")) },
+      { k: "duel.ethx", a: x("eth_bot"), b: x("eth_hold"), fmt: (v) => "×" + loc(v, v < 10 ? 2 : 1), adv: mult(x("eth_bot"), x("eth_hold")) },
+      { k: "duel.btcx", a: x("btc_bot"), b: x("btc_hold"), fmt: (v) => "×" + loc(v, v < 10 ? 2 : 1), adv: mult(x("btc_bot"), x("btc_hold")) },
       { k: "duel.ddeth", a: maxDD(D.eth_bot, s0), b: maxDD(D.eth_hold, s0), fmt: (v) => "−" + loc(v, 0) + " %", loss: true },
       { k: "duel.ddbtc", a: maxDD(D.btc_bot, s0), b: maxDD(D.btc_hold, s0), fmt: (v) => "−" + loc(v, 0) + " %", loss: true },
     ];
