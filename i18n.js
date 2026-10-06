@@ -3,15 +3,9 @@ window.I18N = (() => {
   const T = {
     eyebrow: { de: "Systematische Strategie · ETH &amp; BTC in Euro", en: "Systematic strategy · ETH &amp; BTC in euros" },
     title: { de: "M6F+ gegen Halten", en: "M6F+ vs. holding" },
-    lede: {
-      de: "Wie sich die Strategie M6F+ seit Februar 2020 im Vergleich zum einfachen Halten entwickelt hätte – mit Gebühren, Woche für Woche. Wähle Markt, Startdatum und Betrag.",
-      en: "How the M6F+ strategy would have done since February 2020 compared with simply holding – after fees, week by week. Pick the market, the start date and the amount.",
-    },
+    "lede": { de: 'M6F+ gegen einfaches Halten – seit 2020, mit Gebühren.', en: 'M6F+ vs. simply holding – since 2020, after fees.' },
     "what.h": { de: "Was ist M6F+?", en: "What is M6F+?" },
-    "what.p1": {
-      de: "M6F+ ist eine regelbasierte Strategie für Ether (ETH) und Bitcoin (BTC) in Euro. Sie entscheidet automatisch, wie viel des Kapitals gerade im Coin steckt und wie viel als Euro wartet – von 0 bis 100 %, in festen Schritten. Gekauft und verkauft wird nur, wenn sich diese Entscheidung ändert, im Schnitt zwei- bis dreimal pro Woche.",
-      en: "M6F+ is a rule-based strategy for Ether (ETH) and Bitcoin (BTC) in euros. It decides automatically how much of the capital is in the coin and how much waits in euros – from 0 to 100 %, in fixed steps. It only buys or sells when that decision changes, two to three times a week on average.",
-    },
+    "what.p1": { de: 'Regelbasiert für ETH und BTC: M6F+ entscheidet automatisch, wie viel investiert ist – von 0 bis 100 %.', en: 'Rule-based for ETH and BTC: M6F+ decides automatically how much is invested – from 0 to 100 %.' },
     "what.p2": {
       de: "Das Ziel ist nicht, jede Rallye ganz mitzunehmen, sondern große Einbrüche zu vermeiden und über mehrere Jahre mehr übrig zu behalten als beim einfachen Halten. Wie die Regeln im Einzelnen aussehen, bleibt hier bewusst offen – die Seite zeigt nur, was dabei herausgekommen wäre.",
       en: "The aim is not to ride every rally in full, but to avoid the big crashes and keep more than simply holding over several years. The rules themselves are deliberately not shown here – this page only shows what they would have achieved.",
@@ -31,25 +25,13 @@ window.I18N = (() => {
       en: "Crypto can triple in one year – and lose three quarters in the next. Simply holding means sitting through both. M6F+ is built for anyone who wants to take part in crypto without riding every crash all the way down.",
     },
     "why.1h": { de: "Kleinere Einbrüche", en: "Smaller crashes" },
-    "why.1p": {
-      de: "Der größte Rückgang lag bei ETH bei 37 % statt 77 %, bei BTC bei 29 % statt 73 %. Im Krisenjahr 2022 verlor M6F+ −13 % bzw. −19 %, Halten −69 % bzw. −65 %.",
-      en: "The largest drawdown was 37 % instead of 77 % for ETH, 29 % instead of 73 % for BTC. In the crash year 2022 M6F+ lost 13 % and 19 %, holding 69 % and 65 %.",
-    },
+    "why.1p": { de: '37 % statt 77 % größter Rückgang (ETH).', en: '37 % instead of 77 % largest drawdown (ETH).' },
     "why.2h": { de: "Mehr am Ende", en: "More in the end" },
-    "why.2p": {
-      de: "Weil weniger verloren geht, muss weniger aufgeholt werden. Seit Februar 2020 wurde aus 10.000 € in ETH mit M6F+ rund 428.000 €, gehalten rund 149.000 €.",
-      en: "Losing less means less to win back. Since February 2020, €10,000 in ETH grew to about €428,000 with M6F+ and about €149,000 when held.",
-    },
+    "why.2p": { de: '10.000 € → 428.000 € statt 149.000 € (ETH seit 2020).', en: '€10,000 → €428,000 instead of €149,000 (ETH since 2020).' },
     "why.3h": { de: "Der Einstieg zählt weniger", en: "The entry matters less" },
-    "why.3p": {
-      de: "Nach einem Jahr lagen 82 % aller Starts mit M6F+ im Plus (ETH), gehalten 59 %. Nach zwei Jahren 96 % gegenüber 66 %, bei BTC sogar 100 % gegenüber 74 %.",
-      en: "After one year 82 % of all starts were in profit with M6F+ (ETH), 59 % when held. After two years 96 % against 66 %, for BTC even 100 % against 74 %.",
-    },
+    "why.3p": { de: 'Nach 2 Jahren 96 % der Starts im Plus statt 66 %.', en: 'After 2 years 96 % of starts in profit instead of 66 %.' },
     "why.4h": { de: "Keine Bauchentscheidungen", en: "No gut decisions" },
-    "why.4p": {
-      de: "Panikverkäufe am Tiefpunkt und Käufe auf dem Hoch kosten Anleger oft mehr als jede Gebühr. M6F+ folgt festen Regeln – jeden Tag gleich, ohne Angst und ohne Gier.",
-      en: "Panic selling at the bottom and buying at the top often costs investors more than any fee. M6F+ follows fixed rules – the same every day, without fear or greed.",
-    },
+    "why.4p": { de: 'Feste Regeln statt Angst und Gier – automatisch, rund um die Uhr.', en: 'Fixed rules instead of fear and greed – automatic, around the clock.' },
     "why.5h": { de: "Läuft von selbst", en: "Runs on its own" },
     "why.5p": {
       de: "Kein Chart-Beobachten, keine Alarme, kein nächtliches Nachsehen. Die Entscheidungen fallen automatisch, rund um die Uhr – auch am Wochenende, wenn Krypto oft am heftigsten schwankt.",
@@ -149,39 +131,21 @@ window.I18N = (() => {
     after365: { de: "1 Jahr", en: "1 year" }, after730: { de: "2 Jahren", en: "2 years" },
     "faq.h": { de: "Häufige Fragen", en: "Questions" },
     "faq.q1": { de: "Warum liegt Halten in manchen Jahren vorn?", en: "Why is holding ahead in some years?" },
-    "faq.a1": {
-      de: "In sehr starken Aufwärtsphasen ist M6F+ nicht immer voll investiert und nimmt deshalb nur einen Teil des Anstiegs mit. Das ist der Preis dafür, in Abwärtsphasen große Teile des Verlusts zu vermeiden.",
-      en: "In very strong rallies M6F+ is not always fully invested and so only takes part of the rise. That is the price for avoiding much of the loss in down phases.",
-    },
+    "faq.a1": { de: 'In starken Rallyes ist M6F+ nicht immer voll investiert – der Preis für kleinere Verluste.', en: 'In strong rallies M6F+ is not always fully invested – the price for smaller losses.' },
     "faq.q2": { de: "Wie verlässlich sind diese Zahlen?", en: "How reliable are these figures?" },
-    "faq.a2": {
-      de: "Es ist ein Backtest: die Regeln, angewendet auf vergangene Kurse. Die Regeln wurden mit Daten aus diesem Zeitraum gefunden; in Blindtests, bei denen jedes Jahr nur mit den Jahren davor eingestellt wurde, fiel das Ergebnis für 2022–2026 etwas niedriger aus. Die echte Handelslogik wurde im Nachspielen der Kurse gegen diese Rechnung geprüft und trifft sie praktisch genau.",
-      en: "It is a backtest: the rules applied to past prices. The rules were found with data from this period; in blind tests, where every year was set up only with the years before it, the result for 2022–2026 was somewhat lower. The real trading logic was replayed over the prices and matches this calculation almost exactly.",
-    },
+    "faq.a2": { de: 'Backtest auf vergangenen Kursen. In Blindtests fiel 2022–2026 etwas niedriger aus. Keine Garantie für die Zukunft.', en: 'A backtest on past prices. In blind tests 2022–2026 came out somewhat lower. No guarantee for the future.' },
     "faq.q3": { de: "Wie oft wird gehandelt?", en: "How often does it trade?" },
-    "faq.a3": {
-      de: "Im Schnitt zwei- bis dreimal pro Woche, meist ein kleiner Teil der Position. Gebühren von 0,09 % pro Order und ein kleiner Spread sind in allen Zahlen abgezogen.",
-      en: "Two to three times a week on average, usually a small part of the position. Fees of 0.09 % per order and a small spread are deducted in all figures.",
-    },
+    "faq.a3": { de: 'Zwei- bis dreimal pro Woche, meist ein kleiner Teil. Gebühren sind abgezogen.', en: 'Two to three times a week, mostly a small part. Fees are deducted.' },
     "faq.q4": { de: "Ab welcher Dauer lohnt es sich?", en: "From what holding period does it pay off?" },
     "faq.a4": {
       de: "Unter einem Monat ist das Ergebnis praktisch Zufall – für M6F+ wie fürs Halten. Ab etwa sechs Monaten zeigt sich der Unterschied deutlich, besonders bei den schlechtesten Starttagen. Probiere es oben unter „Hängt es vom Einstieg ab?“ aus.",
       en: "Under a month the result is practically chance – for M6F+ as for holding. From about six months the difference shows clearly, especially for the worst start days. Try it above under “Does the start date matter?”.",
     },
     "faq.q5": { de: "Und die Steuern?", en: "What about taxes?" },
-    "faq.a5": {
-      de: "Steuern sind nicht berücksichtigt. Weil M6F+ regelmäßig verkauft, fallen Gewinne meist innerhalb eines Jahres an und sind in Deutschland dann steuerpflichtig – beim Halten über ein Jahr nicht. Das kann den Vergleich deutlich verschieben; frag dazu einen Steuerberater.",
-      en: "Taxes are not included. Because M6F+ sells regularly, gains usually arise within a year and are then taxable in Germany – when holding for more than a year they are not. That can shift the comparison considerably; ask a tax adviser.",
-    },
+    "faq.a5": { de: 'Nicht berücksichtigt. Gewinne fallen meist innerhalb eines Jahres an und sind dann steuerpflichtig.', en: 'Not included. Gains usually arise within a year and are then taxable.' },
     "basis.h": { de: "Grundlage", en: "Basis" },
-    "basis.1": {
-      de: "Backtest auf Stundenkursen ETH-EUR und BTC-EUR, 1. Februar 2020 bis 4. Oktober 2026, Werte wöchentlich zum Tagesende (UTC).",
-      en: "Backtest on hourly ETH-EUR and BTC-EUR prices, 1 February 2020 to 4 October 2026, values weekly at the end of the day (UTC).",
-    },
-    "basis.2": {
-      de: "Gebühren 0,09 % je Kauf und Verkauf (Market-Orders bei Revolut X) und 0,03 % Spread sind abgezogen; Steuern nicht.",
-      en: "Fees of 0.09 % per buy and sale (market orders on Revolut X) and a 0.03 % spread are deducted; taxes are not.",
-    },
+    "basis.1": { de: 'Backtest ETH-EUR und BTC-EUR, 01.02.2020–04.10.2026, wöchentliche Werte.', en: 'Backtest ETH-EUR and BTC-EUR, 1 Feb 2020 – 4 Oct 2026, weekly values.' },
+    "basis.2": { de: '0,09 % Gebühr je Order und 0,03 % Spread abgezogen, keine Steuern. Vergangene Ergebnisse sind keine Garantie. Keine Anlageberatung.', en: '0.09 % fee per order and 0.03 % spread deducted, no taxes. Past results are no guarantee. Not investment advice.' },
     "basis.3": {
       de: "„Halten“ heißt: am Starttag kaufen und bis zum Ende liegen lassen. Bei 60/40 werden beide Teile getrennt gehalten, ohne Umschichten.",
       en: "“Holding” means buying on the start day and keeping it to the end. With 60/40 both parts are held separately, without rebalancing.",
