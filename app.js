@@ -254,6 +254,29 @@
       (v) => pct(v), { zero: true, label: t("aria.starts"), dateLabel: (i) => t("startTo", { a: dateDe(D.days[i]), b: dateDe(D.days[i + H]) }) });
   }
 
+
+  // ---------- the duel: the headline comparisons as big bars ----------------------------------------------------
+  function renderDuel() {
+    const loc = (v, d) => num(v, d);
+    const rows = [
+      { k: "duel.eth", a: 42.7, b: 14.7, fmt: (v) => "×" + loc(v, 1), adv: t("duel.more", { x: loc(42.7 / 14.7, 1) }) },
+      { k: "duel.btc", a: 22.0, b: 9.1, fmt: (v) => "×" + loc(v, 1), adv: t("duel.more", { x: loc(22.0 / 9.1, 1) }) },
+      { k: "duel.dd", a: 37, b: 77, fmt: (v) => "−" + loc(v, 0) + " %", adv: t("duel.half", { x: loc((1 - 37 / 77) * 100, 0) }), loss: true },
+      { k: "duel.y22", a: 13, b: 69, fmt: (v) => "−" + loc(v, 0) + " %", adv: t("duel.saved", { x: loc(69 - 13, 0) }), loss: true },
+      { k: "duel.plus", a: 96, b: 66, fmt: (v) => loc(v, 0) + " %", adv: t("duel.often", { x: loc(96 - 66, 0) }) },
+    ];
+    document.getElementById("duel").innerHTML = rows.map((r) => {
+      const max = Math.max(r.a, r.b);
+      return `<div class="duel-row${r.loss ? " loss" : ""}">
+        <div class="duel-label">${t(r.k)}<span class="adv">${r.adv}</span></div>
+        <div class="duel-bars">
+          <div class="bar a" style="--w:${(r.a / max) * 100}%"><span>M6F+</span><b>${r.fmt(r.a)}</b></div>
+          <div class="bar b" style="--w:${(r.b / max) * 100}%"><span>${t("hold")}</span><b>${r.fmt(r.b)}</b></div>
+        </div>
+      </div>`;
+    }).join("");
+  }
+
   // ---------- controls ---------------------------------------------------------------------------------------
   function seg(id, onPick) {
     const g = document.getElementById(id);
@@ -264,7 +287,7 @@
     });
   }
   seg("market", (v) => { state.market = v; render(); });
-  seg("lang", (v) => { L.set(v); render(); });
+  seg("lang", (v) => { L.set(v); renderDuel(); render(); });
   seg("scale", (v) => { state.log = v === "log"; render(); });
   seg("horizon", (v) => { state.horizon = +v; renderStarts(); });
   const start = document.getElementById("start");
@@ -286,5 +309,6 @@
   }).observe(document.querySelector("main"));
   matchMedia("(prefers-color-scheme: dark)").addEventListener("change", render);
   L.apply();
+  renderDuel();
   render();
 })();

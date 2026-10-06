@@ -8,7 +8,7 @@
   --text-2: #52514e;
   --text-3: #7a7974;
   --s1: #2a78d6;   /* M6F+ */
-  --s2: #eb6834;   /* Halten */
+  --s2: #e34948;   /* Halten */
   --good: #008300;
   --bad: #c43c3b;
   --accent-bg: #e9f1fb;
@@ -24,7 +24,7 @@
     --text-2: #c3c2b7;
     --text-3: #8f8e86;
     --s1: #3987e5;
-    --s2: #d95926;
+    --s2: #e66767;
     --good: #3fb950;
     --bad: #e66767;
     --accent-bg: #1c2a3d;
@@ -34,7 +34,7 @@
   color-scheme: dark;
   --bg: #121211; --surface: #1a1a19; --line: #2e2e2c; --grid: #262624;
   --text: #ffffff; --text-2: #c3c2b7; --text-3: #8f8e86;
-  --s1: #3987e5; --s2: #d95926; --good: #3fb950; --bad: #e66767; --accent-bg: #1c2a3d;
+  --s1: #3987e5; --s2: #e66767; --good: #3fb950; --bad: #e66767; --accent-bg: #1c2a3d;
 }
 
 * { box-sizing: border-box; }
@@ -42,7 +42,8 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--text);
-  font: 15px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
+  font: 15px/1.5 Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-feature-settings: "ss01", "cv11";
   -webkit-font-smoothing: antialiased;
 }
 .wrap { max-width: 1080px; margin: 0 auto; padding: 0 16px; }
@@ -197,8 +198,35 @@ table.mini td:last-child, table.mini th:last-child { text-align: left; color: va
 .big-stats .big { border-top: 2px solid var(--line); padding-top: 14px; }
 .big-stats .v { font-size: clamp(44px, 6.5vw, 72px); font-weight: 800; letter-spacing: -.03em; line-height: 1; font-variant-numeric: tabular-nums; }
 .big-stats .l { font-size: 15px; font-weight: 600; margin-top: 10px; }
-.big-stats .c { color: var(--text-3); font-size: 14px; margin-top: 2px; font-variant-numeric: tabular-nums; }
+.big-stats .c { color: var(--s2); font-weight: 600; font-size: 14px; margin-top: 2px; font-variant-numeric: tabular-nums; }
 .cta { display: inline-block; margin-top: 32px; padding: 12px 20px; border-radius: 12px; font-weight: 700; text-decoration: none;
   color: #fff; background: linear-gradient(90deg, #2a78d6, #1baf7a); }
 .cta:hover { filter: brightness(1.08); }
 @media (max-width: 700px) { .big-stats { grid-template-columns: 1fr; gap: 18px; } .hero-title { margin-top: 18px; } }
+
+/* ---- duel: M6F+ against holding, big ---- */
+.duel { margin-top: 8px; }
+.duel-title { font-size: clamp(28px, 4.5vw, 44px); font-weight: 900; letter-spacing: -.03em; margin: 8px 0 18px; }
+.duel-title span:first-child { background: linear-gradient(90deg, #3987e5, #1baf7a); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.duel-title em { font-style: normal; color: var(--text-3); font-weight: 500; font-size: .6em; padding: 0 .2em; }
+.duel-title .muted { color: var(--s2); }
+.duel-rows { display: grid; gap: 10px; }
+.duel-row { display: grid; grid-template-columns: 260px 1fr; gap: 18px; align-items: center;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 16px 18px; }
+.duel-label { font-weight: 700; font-size: 16px; }
+.duel-label .adv { display: block; margin-top: 4px; font-size: 13px; font-weight: 600; color: var(--good); }
+.duel-bars { display: grid; gap: 8px; }
+.bar { position: relative; height: 34px; border-radius: 10px; background: var(--grid); overflow: hidden; }
+.bar::before { content: ""; position: absolute; inset: 0 auto 0 0; width: var(--w); border-radius: 10px;
+  transform-origin: left; animation: grow .9s cubic-bezier(.2,.8,.2,1) both; }
+.bar.a::before { background: linear-gradient(90deg, #2a78d6, #1baf7a); }
+.bar.b::before { background: linear-gradient(90deg, #b8302f, var(--s2)); }
+.bar span, .bar b { position: relative; z-index: 1; line-height: 34px; padding: 0 12px; font-size: 13px; color: #fff; }
+.bar b { position: absolute; right: 0; top: 0; color: var(--text); font-size: 18px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.bar.a b { color: var(--text); }
+@keyframes grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@media (prefers-reduced-motion: reduce) { .bar::before { animation: none; } }
+@media (max-width: 700px) {
+  .duel-row { grid-template-columns: 1fr; gap: 10px; padding: 14px; }
+  .bar { height: 30px; } .bar span, .bar b { line-height: 30px; } .bar b { font-size: 16px; }
+}
