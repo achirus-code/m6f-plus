@@ -270,11 +270,11 @@
     const yr = Math.round(365 / STEP);
     let plusB = 0, plusH = 0, n = 0;
     for (let i = s0; i + yr < N; i++, n++) { if (D.eth_bot[i + yr] > D.eth_bot[i]) plusB++; if (D.eth_hold[i + yr] > D.eth_hold[i]) plusH++; }
-    const mult = (a, b) => a >= b ? t("duel.more", { x: loc(a / b, 1) }) : t("duel.behind");
+    const mult = (a, b) => a >= b ? t("duel.more", { x: loc((a / b - 1) * 100, 0) }) : t("duel.behind");
     const lessDD = (a, b) => a <= b ? t("duel.less", { x: loc((1 - a / b) * 100, 0) }) : t("duel.behind");
     const rows = [
-      { k: "duel.ethx", a: x("eth_bot"), b: x("eth_hold"), fmt: (v) => "×" + loc(v, v < 10 ? 2 : 1), adv: mult(x("eth_bot"), x("eth_hold")) },
-      { k: "duel.btcx", a: x("btc_bot"), b: x("btc_hold"), fmt: (v) => "×" + loc(v, v < 10 ? 2 : 1), adv: mult(x("btc_bot"), x("btc_hold")) },
+      { k: "duel.ethx", a: x("eth_bot"), b: x("eth_hold"), fmt: (v) => pct((v - 1) * 100), adv: mult(x("eth_bot"), x("eth_hold")) },
+      { k: "duel.btcx", a: x("btc_bot"), b: x("btc_hold"), fmt: (v) => pct((v - 1) * 100), adv: mult(x("btc_bot"), x("btc_hold")) },
       { k: "duel.ddeth", a: maxDD(D.eth_bot, s0), b: maxDD(D.eth_hold, s0), fmt: (v) => "−" + loc(v, 0) + " %", loss: true },
       { k: "duel.ddbtc", a: maxDD(D.btc_bot, s0), b: maxDD(D.btc_hold, s0), fmt: (v) => "−" + loc(v, 0) + " %", loss: true },
     ];
